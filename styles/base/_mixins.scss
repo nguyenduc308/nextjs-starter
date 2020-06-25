@@ -1,0 +1,70 @@
+@mixin prefix($property, $value, $vendors: webkit moz ms o, $default: true) {
+    @if $vendors {
+      @each $vendor in $vendors {
+        #{"-" + $vendor + "-" + $property}: #{$value};
+      }
+    }
+    @if $default {
+      #{$property}: #{$value};
+    }
+}
+
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+@mixin position-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    @include prefix('transform','translate(-50%, -50%)', moz webkit ms)
+}
+@mixin box($width, $height:$width) {
+    width: $width;
+    height: $height;
+}
+@mixin font-size($size) {
+    font-size: $size;
+    line-height: calc(#{$size}*1.5);
+}
+@mixin screen($size) {
+    $desktop: "(min-width: 1024px)";
+    $tablet: "(min-width: 768px) and (max-width: 1023px)";
+    $mobile: "(max-width: 767px)";
+    @if $size == desktop {
+      @media only screen and #{$desktop} {
+        @content;
+      }
+    }
+    @else if $size == tablet {
+      @media only screen and #{$tablet} {
+        @content;
+      }
+    }
+    @else if $size == mobile {
+        @media only screen and #{$mobile} {
+        @content;
+        }
+    }
+    @else {
+        @media only screen and #{$size} {
+          @content;
+        }
+      }
+}
+@mixin keyframes($name) {
+    @-webkit-keyframes #{$name} {
+      @content;
+    }
+  
+    @-moz-keyframes #{$name} {
+      @content;
+    }
+  
+    @keyframes #{$name} {
+      @content;
+    }
+}
+
+
